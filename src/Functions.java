@@ -6,7 +6,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.awt.Desktop;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 
 public class Functions {
@@ -22,23 +26,40 @@ public class Functions {
 
     static String[] dataType = {"String", "Integer", "Double", "Float", "Long", "Byte", "Short", "Boolean", "Char"};
     static String dataTypeKey = dataType[0];
-    static String dataTypeValue = dataType[0];    
+    static String dataTypeValue = dataType[0];
+    
+    static String[] resultActions = {"Display it in Notepad", "Copy to clipboard", "Both"};
+    static String resultActionsSelected = resultActions[2];
 
-
-    static String keys;
+    static String keys = "<a>, <b>, <c>";
     static String keysRemoveLeft = "";
     static String keysRemoveRight = "";
-    static String values;
+    static String values = "#a-, #b-, #c-";
     static String valuesRemoveLeft = "";
     static String valuesRemoveRight = "";
     static String mapBody = "empty";
     static String mapName = "myMap";
     static String functionName = "myFunction";
+    static String mapResult = "";
 
+    // PATH-FILE
     static Path resultFilePath = Paths.get("result.txt");
     static File resultFile = new File(resultFilePath.toString());
 
-    
+    // CLIPBOARD
+    static Toolkit toolkit = Toolkit.getDefaultToolkit();
+    static Clipboard clipboard = toolkit.getSystemClipboard();
+
+    public String[] getRollDownOptions(String title) {
+        HashMap<String, String[]> map = new HashMap<>();
+        map.put("mapType", mapType);
+        map.put("resultAs", resultAs);
+        map.put("splitBy", splitBy);
+        map.put("dataType", dataType);
+        map.put("resultActions", resultActions);
+        return map.get(title);
+    }
+
     static String getTrimmedKey(String originalKey) {
         Integer beginIndex = keysRemoveLeft.length();
         Integer endIndex = originalKey.length() - keysRemoveRight.length();
@@ -71,7 +92,7 @@ public class Functions {
     
     
     static String getHeader() {
-        return "Map<" + dataTypeKey + ", " + dataTypeValue + "> " + mapName + " = new " + mapTypeSelected + "<>();"; 
+        return mapTypeSelected + "<" + dataTypeKey + ", " + dataTypeValue + "> " + mapName + " = new " + mapTypeSelected + "<>();"; 
     }
 
 
@@ -107,7 +128,7 @@ public class Functions {
 
     static String getHeaderFunction() {
         if (resultAsSelected == "Function") {
-            return "static Map<" + dataTypeKey + ", " + dataTypeValue + "> " + functionName + "() {\n"; 
+            return "static " + mapTypeSelected + "<" + dataTypeKey + ", " + dataTypeValue + "> " + functionName + "() {\n"; 
         }
         else { return "";}
     }
@@ -121,19 +142,17 @@ public class Functions {
     }
 
     
-    static String getMap() {
-        String map = getHeaderFunction()
+    static void createMap() {
+        mapResult = getHeaderFunction()
                     + getHeader() + "\n"
                     + getBody() + "\n"
                     + getClousareFunction();
-        return map;
     }
 
 
     static void writeToFile() {
         try {
-            String map = getMap();
-            Files.writeString(resultFilePath, map, StandardCharsets.UTF_8);
+            Files.writeString(resultFilePath, mapResult, StandardCharsets.UTF_8);
         }
         catch (IOException e) {
             System.out.print("Invalid Path");
@@ -146,31 +165,26 @@ public class Functions {
             Desktop.getDesktop().open(resultFile);
             }
         catch (IOException e) {System.out.println("Could not open Notepad");}
-    } 
-
-
-    public static void main(String[] args) {
-        
-        // TEST TEXT
-        // SPLIT BY LINE BREAK
-        keys = """
-                <a>
-                <b>
-                <c>
-                """; 
-        values = """
-                #a-
-                #b-
-                #c-
-                """;
-        
-        // SPLIT BY ","
-        keys = "<a>, <b>, <c>";
-        values = "#a-, #b-, #c-";
-
-        writeToFile();
-        // launcNotepad();
-        
     }
- 
+    
+    static void copyToClipboard() {
+        StringSelection strSel = new StringSelection(mapResult);
+        clipboard.setContents(strSel, null); 
+    }
+
+
+    public void goButtonAction() {
+        createMap();
+        writeToFile();
+        if (resultActionsSelected == resultActions[0]) {
+            launcNotepad();
+        }
+        if (resultActionsSelected == resultActions[1]) {
+            copyToClipboard();
+        }
+        else {
+            launcNotepad();
+            copyToClipboard();
+        }
+    }
 }
