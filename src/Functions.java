@@ -51,7 +51,7 @@ public class Functions {
 
 
     // VALUES
-    static String values = "#a-, #b-, #c-";
+    static String values = "";
     public void setValues(String newValue) {values = newValue;}
 
     static String valuesRemoveLeft = "";
@@ -239,7 +239,7 @@ public class Functions {
         if (resultActionsSelected == resultActions[1]) {
             copyToClipboard();
         }
-        else {
+        if (resultActionsSelected == resultActions[2]) {
             launcNotepad();
             copyToClipboard();
         }
