@@ -48,10 +48,10 @@ public class Ui {
 
     public static void main(String[] args) {
         
-        Font combo_box_font_style = new Font("Times New Roman", Font.PLAIN, 18);
-        Font field_font_style = new Font("Consolas", Font.BOLD, 18);
-        Font label_font_style = new Font("Times New Roman", Font.PLAIN, 18);
-        Font label_title_font_style = new Font("Times New Roman", Font.PLAIN, 18);
+        Font combo_box_font_style = new Font("Times New Roman", Font.PLAIN, 16);
+        Font field_font_style = new Font("Consolas", Font.BOLD, 16);
+        Font label_font_style = new Font("Times New Roman", Font.PLAIN, 16);
+        Font label_title_font_style = new Font("Times New Roman", Font.PLAIN, 16);
         
         JComboBox<String> comboBoxMapType = new JComboBox<>(fs.getRollDownOptions("mapType"));
         comboBoxMapType.setFont(combo_box_font_style);
@@ -97,7 +97,7 @@ public class Ui {
         
         
         
-        JButton buttonCompile = new JButton("Compile");
+        JButton buttonCompile = new JButton("COMPILE");
         buttonCompile.setFont(label_font_style);
         buttonCompile.addActionListener(new ActionListener() {
             @Override
@@ -130,28 +130,45 @@ public class Ui {
             
         
         // WIDGETS POSITIONING    
-        comboBoxMapType.setBounds(40, da.getPosY(-1), da.WIDGET_WIDTH, 25);
-        comboBoxResultAs.setBounds(300, da.getPosY(-1), da.WIDGET_WIDTH, 25);
-        comboBoxSplitBy.setBounds(300, da.getPosY(0), da.WIDGET_WIDTH, 25);
-        comboBoxdDataTypeKey.setBounds(300, da.getPosY(2), da.WIDGET_WIDTH, 25);
-        comboBoxdDataTypeValue.setBounds(300, da.getPosY(3), da.WIDGET_WIDTH, 25);
-
-        comboBoxdResultActions.setBounds(300, da.getPosY(5), da.WIDGET_WIDTH + 40, 25);
+        comboBoxMapType.setBounds(da.BASE_X, da.getPosY(-1), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
+        comboBoxResultAs.setBounds(da.BASE_X, da.getPosY(0), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
         
-        textFieldMapName.setBounds(40, da.getPosY(1), da.WIDGET_WIDTH, 25);
-        textFieldFunctionName.setBounds(40, da.getPosY(2), da.WIDGET_WIDTH, 25);
+        
+        textFieldMapName.setBounds(da.BASE_X, da.getPosY(1), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
+        textFieldFunctionName.setBounds(da.BASE_X, da.getPosY(2), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
+        
+        comboBoxdResultActions.setBounds(da.BASE_X, da.getPosY(3), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
+        comboBoxSplitBy.setBounds(da.BASE_X, da.getPosY(4), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
 
 
-        textFieldKeysRemoveLeft.setBounds(40, da.getPosY(7), 70, 25);
-        textFieldKeysRemoveRight.setBounds(140, da.getPosY(7), 70, 25);
-        textFieldValuesRemoveLeft.setBounds(300, da.getPosY(7), 70, 25);
-        textFieldValuesRemoveRight.setBounds(400, da.getPosY(7), 70, 25);
 
 
-        textAreaKeys.setBounds(40, da.getPosY(10), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
-        textAreaValues.setBounds(300, da.getPosY(10), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
 
-        buttonCompile.setBounds(40, da.FRAME_HEIGHT - 100, da.WIDGET_WIDTH, 25);
+
+        int trimAndAddFieldDiff = 5;
+        int trimAndAddFieldsWidth = (int)(da.keyAndValueWidgetsWidth / 2 - trimAndAddFieldDiff);
+        int trimAndAddFielRightPos = da.BASE_X + trimAndAddFieldsWidth + trimAndAddFieldDiff * 2;
+        int keysPosBaseX = da.BASE_X + da.keyAndValueWidgetsWidth + da.keysAndValuesWidgetPosXdiff;
+        int keysPosRightX = keysPosBaseX + trimAndAddFieldsWidth + trimAndAddFieldDiff * 2;
+        
+        
+        comboBoxdDataTypeKey.setBounds(da.BASE_X, da.getPosY(6), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
+        comboBoxdDataTypeValue.setBounds(keysPosBaseX, da.getPosY(6), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
+        
+        textFieldKeysRemoveLeft.setBounds(da.BASE_X, da.getPosY(7), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldKeysRemoveRight.setBounds(trimAndAddFielRightPos, da.getPosY(7), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+
+
+        textFieldValuesRemoveLeft.setBounds(keysPosBaseX, da.getPosY(7), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldValuesRemoveRight.setBounds(keysPosRightX, da.getPosY(7), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+
+
+        textAreaKeys.setBounds(da.BASE_X, da.getPosY(9), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
+        textAreaValues.setBounds(keysPosBaseX, da.getPosY(9), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
+        
+        int buttonCompileHeight = (int)(da.WIDGET_HEIGHT*1.3);
+        int buttonCompileWidth = da.keyAndValueWidgetsWidth * 2 + da.keysAndValuesWidgetPosXdiff;
+        buttonCompile.setBounds(da.BASE_X, da.FRAME_HEIGHT - 100, buttonCompileWidth, buttonCompileHeight);
             
 
  
