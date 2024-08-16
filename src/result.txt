@@ -1,7 +1,0 @@
-static Map<String, String> myFunction() {
-Map<String, String> myMap = new HashMap<>();
-myMap.put("<a>", "#a-");
-myMap.put("<b>", "#b-");
-myMap.put("<c>", "#c-");
-return myMap;
-}

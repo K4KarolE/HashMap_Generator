@@ -86,11 +86,11 @@ public class Ui {
     }
 
 
-    public static void main(String[] args) {
+    public static void createUI() {
         
-        Font combo_box_font_style = new Font("Times New Roman", Font.PLAIN, 16);
-        Font field_font_style = new Font("Consolas", Font.BOLD, 16);
-        Font label_font_style = new Font("Times New Roman", Font.PLAIN, 16);
+        Font combo_box_font_style = new Font("Verdana", Font.PLAIN, 15);
+        Font field_font_style = new Font("Verdana", Font.BOLD, 15);
+        Font keysValuesTitleFont = new Font("Verdana", Font.PLAIN, 18);
         
         JComboBox<String> comboBoxMapType = new JComboBox<>(fs.getRollDownOptions("mapType"));
         comboBoxMapType.setFont(combo_box_font_style);
@@ -110,13 +110,24 @@ public class Ui {
         JComboBox<String> comboBoxdResultActions = new JComboBox<>(fs.getRollDownOptions("resultActions"));
         comboBoxdResultActions.setFont(combo_box_font_style);
 
-
         JTextField textFieldMapName = new JTextField();
         textFieldMapName.setFont(field_font_style);
         JTextField textFieldFunctionName = new JTextField();
         textFieldFunctionName.setFont(field_font_style);
 
+        addFieldsExplanationTextWidgets();
 
+
+        // *** KEYS / VALUES ***
+        // TITLES
+        JLabel keysTitle = new JLabel("KEYS");
+        keysTitle.setFont(keysValuesTitleFont);
+
+        JLabel valuesTitle = new JLabel("VALUES");
+        valuesTitle.setFont(keysValuesTitleFont);
+
+
+        // REMOVE FROM KEYS / VALUES FIELDS
         JTextField textFieldKeysRemoveLeft = new JTextField();
         textFieldKeysRemoveLeft.setFont(field_font_style);
         JTextField textFieldKeysRemoveRight = new JTextField();
@@ -127,22 +138,32 @@ public class Ui {
         JTextField textFieldValuesRemoveRight = new JTextField();
         textFieldValuesRemoveRight.setFont(field_font_style);
 
+        // ADD TO KEYS / VALUES FIELDS
+        JTextField textFieldKeysAddLeft = new JTextField();
+        textFieldKeysAddLeft.setFont(field_font_style);
+        JTextField textFieldKeysAddRight = new JTextField();
+        textFieldKeysAddRight.setFont(field_font_style);
 
+        JTextField textFieldValuesAddLeft = new JTextField();
+        textFieldValuesAddLeft.setFont(field_font_style);
+        JTextField textFieldValuesAddRight = new JTextField();
+        textFieldValuesAddRight.setFont(field_font_style);
+
+        // TEXT AREAS
         JTextArea textAreaKeys = new JTextArea();
         textAreaKeys.setFont(field_font_style);
 
         JTextArea textAreaValues = new JTextArea();
         textAreaValues.setFont(field_font_style);
 
-
-        addFieldsExplanationTextWidgets();
-
-        addImage("remove", 8);
-        addImage("add", 9);
+        // IMAGES
+        addImage("remove", 9);
+        addImage("add", 10);
 
         
         JButton buttonCompile = new JButton("COMPILE");
-        buttonCompile.setFont(label_font_style);
+        Font buttonCompileFont = new Font("Verdana", Font.PLAIN, 16);
+        buttonCompile.setFont(buttonCompileFont);
         buttonCompile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,10 +181,14 @@ public class Ui {
                 fs.setKeys(textAreaKeys.getText());
                 fs.setKeysRemoveLeft(textFieldKeysRemoveLeft.getText());
                 fs.setKeysRemoveRight(textFieldKeysRemoveRight.getText());
+                fs.setKeysAddLeft(textFieldKeysAddLeft.getText());
+                fs.setKeysAddRight(textFieldKeysAddRight.getText());
              
                 fs.setValues(textAreaValues.getText());
                 fs.setValuesRemoveLeft(textFieldValuesRemoveLeft.getText());
-                fs.setValuesRemoveRight(textFieldValuesRemoveLeft.getText());
+                fs.setValuesRemoveRight(textFieldValuesRemoveRight.getText());
+                fs.setValuesAddLeft(textFieldValuesAddLeft.getText());
+                fs.setValuesAddRight(textFieldValuesAddRight.getText());
                      
                 warningMsgKeysValuesDiff();
                 fs.goButtonAction();
@@ -183,28 +208,37 @@ public class Ui {
         comboBoxdResultActions.setBounds(da.BASE_X, da.getPosY(4), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
         comboBoxSplitBy.setBounds(da.BASE_X, da.getPosY(5), da.WIDGET_WIDTH, da.WIDGET_HEIGHT);
 
-
+        // *** KEYS / VALUES *** 
         int trimAndAddFieldDiff = 5;
         int trimAndAddFieldsWidth = (int)(da.keyAndValueWidgetsWidth / 2 - trimAndAddFieldDiff);
         int trimAndAddFielRightPos = da.BASE_X + trimAndAddFieldsWidth + trimAndAddFieldDiff * 2;
         int keysPosBaseX = da.BASE_X + da.keyAndValueWidgetsWidth + da.keysAndValuesWidgetPosXdiff;
         int keysPosRightX = keysPosBaseX + trimAndAddFieldsWidth + trimAndAddFieldDiff * 2;
+        int keysValuesPosYstarting = 8;
+        int keysTitlePosX = (int)(da.BASE_X + da.keyAndValueWidgetsWidth / 2 - 25);
+        int valuesTitlePosX = (int)(da.BASE_X + da.keyAndValueWidgetsWidth + da.keysAndValuesWidgetPosXdiff + da.keyAndValueWidgetsWidth / 2 - 35);
         
+
+        keysTitle.setBounds(keysTitlePosX, da.getPosY(keysValuesPosYstarting - 1), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
+        valuesTitle.setBounds(valuesTitlePosX, da.getPosY(keysValuesPosYstarting - 1), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
         
-        comboBoxdDataTypeKey.setBounds(da.BASE_X, da.getPosY(7), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
-        comboBoxdDataTypeValue.setBounds(keysPosBaseX, da.getPosY(7), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
+        comboBoxdDataTypeKey.setBounds(da.BASE_X, da.getPosY(keysValuesPosYstarting), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
+        comboBoxdDataTypeValue.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT);
         
-        textFieldKeysRemoveLeft.setBounds(da.BASE_X, da.getPosY(8), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
-        textFieldKeysRemoveRight.setBounds(trimAndAddFielRightPos, da.getPosY(8), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldKeysRemoveLeft.setBounds(da.BASE_X, da.getPosY(keysValuesPosYstarting + 1), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldKeysRemoveRight.setBounds(trimAndAddFielRightPos, da.getPosY(keysValuesPosYstarting + 1), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldKeysAddLeft.setBounds(da.BASE_X, da.getPosY(keysValuesPosYstarting + 2), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldKeysAddRight.setBounds(trimAndAddFielRightPos, da.getPosY(keysValuesPosYstarting + 2), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
 
 
-        textFieldValuesRemoveLeft.setBounds(keysPosBaseX, da.getPosY(8), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
-        textFieldValuesRemoveRight.setBounds(keysPosRightX, da.getPosY(8), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldValuesRemoveLeft.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting + 1), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldValuesRemoveRight.setBounds(keysPosRightX, da.getPosY(keysValuesPosYstarting +1), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldValuesAddLeft.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting + 2), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
+        textFieldValuesAddRight.setBounds(keysPosRightX, da.getPosY(keysValuesPosYstarting + 2), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
 
 
-        textAreaKeys.setBounds(da.BASE_X, da.getPosY(10), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
-        textAreaValues.setBounds(keysPosBaseX, da.getPosY(10), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
-
+        textAreaKeys.setBounds(da.BASE_X, da.getPosY(keysValuesPosYstarting + 3), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
+        textAreaValues.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting + 3), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
         Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
         textAreaKeys.setBorder(border);
         textAreaValues.setBorder(border);
@@ -220,19 +254,27 @@ public class Ui {
         Component[] widgets_array = {
             comboBoxMapType,
             comboBoxResultAs,
+            textFieldMapName,
+            textFieldFunctionName,
+            comboBoxdResultActions,
             comboBoxSplitBy,
+            
+            // KEYS - VALUES
+            keysTitle,
+            valuesTitle,
+
             comboBoxdDataTypeKey,
             comboBoxdDataTypeValue,
 
-            comboBoxdResultActions,
-
-            textFieldMapName,
-            textFieldFunctionName,
-
             textFieldKeysRemoveLeft,
             textFieldKeysRemoveRight,
+            textFieldKeysAddLeft,
+            textFieldKeysAddRight,
+
             textFieldValuesRemoveLeft,
             textFieldValuesRemoveRight,
+            textFieldValuesAddLeft,
+            textFieldValuesAddRight,
 
             textAreaKeys,
             textAreaValues,

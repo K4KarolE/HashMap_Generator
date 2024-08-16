@@ -49,6 +49,12 @@ public class Functions {
     static String keysRemoveRight = "";
     public void setKeysRemoveRight(String newValue) {keysRemoveRight = newValue;}
 
+    static String keysAddLeft = "";
+    public void setKeysAddLeft(String newValue) {keysAddLeft = newValue;}
+
+    static String keysAddRight = "";
+    public void setKeysAddRight(String newValue) {keysAddRight = newValue;}
+
 
     // VALUES
     static String values = "";
@@ -59,6 +65,12 @@ public class Functions {
 
     static String valuesRemoveRight = "";
     public void setValuesRemoveRight(String newValue) {valuesRemoveRight = newValue;}
+
+    static String valuesAddLeft = "";
+    public void setValuesAddLeft(String newValue) {valuesAddLeft = newValue;}
+
+    static String valuesAddRight = "";
+    public void setValuesAddRight(String newValue) {valuesAddRight = newValue;}
 
 
     static String mapName = "myMap";
@@ -93,21 +105,36 @@ public class Functions {
     }
 
 
-    
     static String getTrimmedKey(String originalKey) {
-        Integer beginIndex = keysRemoveLeft.length();
-        Integer endIndex = originalKey.length() - keysRemoveRight.length();
-    return originalKey.substring(beginIndex, endIndex);
+        if (keysRemoveLeft.length() + keysRemoveRight.length() <= originalKey.length()) {
+            Integer beginIndex = keysRemoveLeft.length();
+            Integer endIndex = originalKey.length() - keysRemoveRight.length();
+            return originalKey.substring(beginIndex, endIndex);
+        }
+        else {return "";}
     }
 
 
     static String getTrimmedValue(String originalValue) {
-        Integer beginIndex = valuesRemoveLeft.length();
-        Integer endIndex = originalValue.length() - valuesRemoveRight.length();
-    return originalValue.substring(beginIndex, endIndex);
+        if (valuesRemoveLeft.length() + valuesRemoveRight.length() <= originalValue.length()) {
+            Integer beginIndex = valuesRemoveLeft.length();
+            Integer endIndex = originalValue.length() - valuesRemoveRight.length();
+            return originalValue.substring(beginIndex, endIndex);
+        }
+        else {return "";}
+    }
+
+
+    static String getExtendedKey(String key) {
+        return keysAddLeft + key + keysAddRight;
     }
     
+
+    static String getExtendedValue(String value) {
+        return valuesAddLeft + value + valuesAddRight;
+    }
     
+
     static String addToMap(String key, String value) {
         if (dataTypeKey == "String") {
             key = "\"" + key + "\"";
@@ -163,10 +190,12 @@ public class Functions {
 
                 String key = getArrayOfKeys()[i];
                 key = getTrimmedKey(key);
+                key = getExtendedKey(key);
 
                 if (i < valuesLength) {    // Keys > Values
                     value = getArrayOfValues()[i];
                     value = getTrimmedValue(value);
+                    value = getExtendedValue(value);
                 }
                 else {value = "";}
 

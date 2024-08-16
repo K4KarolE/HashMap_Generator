@@ -1,7 +1,8 @@
-static Map<String, String> myFunction() {
-Map<String, String> myMap = new HashMap<>();
-myMap.put("<a>", "#a-");
-myMap.put("<b>", "#b-");
-myMap.put("<c>", "#c-");
+static HashMap<Integer, String> MyFunc() {
+HashMap<Integer, String> myMap = new HashMap<>();
+myMap.put(1,"#A+");
+myMap.put(2,"#B+");
+myMap.put(3,"#C+");
+myMap.put(4,"#D+");
 return myMap;
 }

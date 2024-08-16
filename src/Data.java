@@ -6,7 +6,7 @@ public class Data {
     public int WIDGET_HEIGHT = 28;
     
     public int BASE_X = 40;
-    public int BASE_Y = 30;
+    public int BASE_Y = 20;
     public int X_DIFF = 160;
     public int Y_DIFF = WIDGET_HEIGHT + 5;
     
@@ -20,7 +20,7 @@ public class Data {
     public int keysAndValuesWidgetPosXdiff = 40;
     public int _xPosCompensate = 16;
     public int FRAME_WIDTH = BASE_X * 2 + keyAndValueWidgetsWidth * 2 + keysAndValuesWidgetPosXdiff + _xPosCompensate;
-    public int FRAME_HEIGHT = 700;
+    public int FRAME_HEIGHT = 730;
     public int FRAME_POS_X = 800;
     public int FRAME_POS_Y = 600;
 }
