@@ -24,7 +24,7 @@ public class Functions {
     static String resultAsSelected = "";
     public void setResultAsSelected(String newValue) {resultAsSelected = newValue;}
 
-    static String[] splitBy = {"Line break", ",", ";" ,"#"};
+    static String[] splitBy = {"Line break", ",", ";" ,"#", "/", "*", "-"};
     static String splitBySelected = "";
     public void setSplitBySelected(String newValue) {splitBySelected = newValue;}
 

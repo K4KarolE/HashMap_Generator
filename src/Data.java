@@ -2,14 +2,11 @@ package src;
 
 public class Data {
     
-    public int X_DIFF_TEXT = 50;
-    
     public int WIDGET_WIDTH = 180;
     public int WIDGET_HEIGHT = 28;
     
-    
     public int BASE_X = 40;
-    public int BASE_Y = 60;
+    public int BASE_Y = 30;
     public int X_DIFF = 160;
     public int Y_DIFF = WIDGET_HEIGHT + 5;
     
@@ -17,6 +14,7 @@ public class Data {
         double i = BASE_Y + Y_DIFF * x;
         return (int)i;
     }
+    
     
     public int keyAndValueWidgetsWidth = WIDGET_WIDTH + 40;
     public int keysAndValuesWidgetPosXdiff = 40;
