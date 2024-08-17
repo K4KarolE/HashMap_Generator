@@ -1,20 +1,19 @@
 package src;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.Font;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -23,6 +22,11 @@ import java.awt.Component;
 
 public class Ui {
 
+    // FRAME << PANEL << WIDGETS
+    // FRAME: - , PANEL: .setLayout(null);
+    // >> allows to use abs. positioning
+    // with texArea`s auto-scrolling functionality
+    static JPanel panel = new JPanel();
     static JFrame frame = new JFrame();
     static Data da = new Data();
     static Functions fs = new Functions();
@@ -32,11 +36,9 @@ public class Ui {
         Image icon = Toolkit.getDefaultToolkit().getImage("./docs/icon_window.png");
         frame.setIconImage(icon);
         frame.setTitle("Hashmap Generator");
-        frame.setLayout(null);
         frame.setBounds(da.FRAME_POS_X, da.FRAME_POS_Y, da.FRAME_WIDTH, da.FRAME_HEIGHT);
         frame.getContentPane().setBackground(new java.awt.Color(243, 243, 243));
-        frame.setResizable(false);
-        frame.setVisible(true);
+        frame.setResizable(false);     
     }    
 
     
@@ -149,16 +151,21 @@ public class Ui {
         JTextField textFieldValuesAddRight = new JTextField();
         textFieldValuesAddRight.setFont(field_font_style);
 
-        // TEXT AREAS
-        JTextArea textAreaKeys = new JTextArea();
-        textAreaKeys.setFont(field_font_style);
-
-        JTextArea textAreaValues = new JTextArea();
-        textAreaValues.setFont(field_font_style);
-
         // IMAGES
         addImage("remove", 9);
         addImage("add", 10);
+        
+        // TEXT AREAS
+        // JScrollPane >> auto-scroll when text overreaching 
+        JTextArea textAreaKeys = new JTextArea();
+        textAreaKeys.setFont(field_font_style);
+        JScrollPane textAreaKeysScrollPane = new JScrollPane(textAreaKeys);
+      
+
+        JTextArea textAreaValues = new JTextArea();
+        textAreaValues.setFont(field_font_style);
+        JScrollPane textAreaValuesScrollPane = new JScrollPane(textAreaValues);
+
 
         
         JButton buttonCompile = new JButton("COMPILE");
@@ -236,12 +243,9 @@ public class Ui {
         textFieldValuesAddLeft.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting + 2), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
         textFieldValuesAddRight.setBounds(keysPosRightX, da.getPosY(keysValuesPosYstarting + 2), trimAndAddFieldsWidth, da.WIDGET_HEIGHT);
 
-
-        textAreaKeys.setBounds(da.BASE_X, da.getPosY(keysValuesPosYstarting + 3), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
-        textAreaValues.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting + 3), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
-        Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
-        textAreaKeys.setBorder(border);
-        textAreaValues.setBorder(border);
+        // textAreaKeys, textAreaKeys POSITIONING
+        textAreaKeysScrollPane.setBounds(da.BASE_X, da.getPosY(keysValuesPosYstarting + 3), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
+        textAreaValuesScrollPane.setBounds(keysPosBaseX, da.getPosY(keysValuesPosYstarting + 3), da.keyAndValueWidgetsWidth, da.WIDGET_HEIGHT*8);
 
    
         int buttonCompileHeight = (int)(da.WIDGET_HEIGHT*1.3);
@@ -276,18 +280,20 @@ public class Ui {
             textFieldValuesAddLeft,
             textFieldValuesAddRight,
 
-            textAreaKeys,
-            textAreaValues,
+            // ADDING textAreaKeys, textAreaKeys
+            textAreaKeysScrollPane,     
+            textAreaValuesScrollPane,
 
             buttonCompile
         };
 
         for (Component widget : widgets_array) {
-           frame.add(widget);
+           panel.add(widget);
         }
 
-        
+        panel.setLayout(null);  // absolute positioning
+        frame.add(panel);
+        frame.setVisible(true);
         createWindow();
     }
-
 }
