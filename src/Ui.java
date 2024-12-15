@@ -31,15 +31,26 @@ public class Ui {
     static Data da = new Data();
     static Functions fs = new Functions();
 
+    static boolean is_os_linux() {
+      String OS = System.getProperty("os.name").toLowerCase();
+      return (OS.indexOf("linux") >= 0);
+    }
 
     static void createWindow() {
-        Image icon = Toolkit.getDefaultToolkit().getImage("./docs/icon_window.png");
-        frame.setIconImage(icon);
+    
+        if (!is_os_linux()){
+            try {
+                Image icon = Toolkit.getDefaultToolkit().getImage("/docs/icon_window.png");
+                frame.setIconImage(icon);
+            }
+            catch (Exception e) {System.out.println("ERROR - loading window icon");}
+        } 
+        
         frame.setTitle("Hashmap Generator");
         frame.setBounds(da.FRAME_POS_X, da.FRAME_POS_Y, da.FRAME_WIDTH, da.FRAME_HEIGHT);
         frame.getContentPane().setBackground(new java.awt.Color(243, 243, 243));
         frame.setResizable(false);     
-    }    
+    }
 
     
     static void warningMsgKeysValuesDiff() {
